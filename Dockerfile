@@ -1,13 +1,16 @@
 FROM python:3.9
 
 WORKDIR /app
-COPY ./requirements.txt ./
 
-RUN python3 -m venv .venv && \
-    .venv/bin/pip3 install --no-cache-dir --upgrade pip && \
-    .venv/bin/pip3 install --no-cache-dir -r requirements.txt
+# Install uv
+RUN pip3 install --no-cache-dir uv
 
+# Copy project files
+COPY ./pyproject.toml ./
 COPY ./ ./
+
+# Install dependencies using uv
+RUN uv sync --no-dev
 
 EXPOSE 8000
 

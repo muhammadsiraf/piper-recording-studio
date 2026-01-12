@@ -36,17 +36,18 @@ docker build . -t rhasspy/piper-recording-studio
 git clone https://github.com/rhasspy/piper-recording-studio.git
 cd piper-recording-studio/
 
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
+# Install uv (https://github.com/astral-sh/uv)
+pip install uv
+
+# Install dependencies
+uv sync
 ```
 
 
 ## Running without Docker
 
 ``` sh
-python3 -m piper_recording_studio
+uv run python -m piper_recording_studio
 ```
 
 Visit http://localhost:8000 to select a language and start recording.
@@ -74,13 +75,13 @@ sudo apt-get install ffmpeg
 Install exporting dependencies:
 
 ``` sh
-python3 -m pip install -r requirements_export.txt
+uv sync --extra export
 ```
 
 Export recordings for a language to a Piper-compatible dataset (LJSpeech format):
 
 ``` sh
-python3 -m export_dataset output/<language>/ /path/to/dataset
+uv run python -m export_dataset output/<language>/ /path/to/dataset
 ```
 
 Requires a non-Docker install. If you used Docker to record your dataset, you may need to adjust the permissions of the output directory:
@@ -95,7 +96,7 @@ See `--help` for more options. You may need to adjust the silence detection para
 ## Multi-User Mode
 
 ``` sh
-python3 -m piper_recording_studio --multi-user
+uv run python -m piper_recording_studio --multi-user
 ```
 
 Now a "login code" will be required to record. A directory `output/user_<code>/<language>` must exist for each user and language.

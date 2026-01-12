@@ -1,0 +1,72 @@
+[project]
+name = "piper-recording-studio"
+version = "0.0.1"
+description = "Local tool for recording yourself to train a Piper text to speech voice"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+dependencies = [
+    "hypercorn==0.14.3",
+    "quart==0.18.4",
+    "Werkzeug==2.3.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build==0.10.0",
+    "black==23.3.0",
+    "flake8==6.0.0",
+    "isort==5.12.0",
+    "mypy==1.1.1",
+    "pylint==2.17.1",
+    "pytest==7.2.2",
+]
+export = [
+    "onnxruntime>=1.11.0,<2",
+    "numpy",
+    "regex",
+]
+
+[project.scripts]
+piper-recording-studio = "piper_recording_studio:main"
+
+[tool.uv]
+dev-dependencies = [
+    "build==0.10.0",
+    "black==23.3.0",
+    "flake8==6.0.0",
+    "isort==5.12.0",
+    "mypy==1.1.1",
+    "pylint==2.17.1",
+    "pytest==7.2.2",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+indent = "    "
+
+[tool.flake8]
+max-line-length = 88
+ignore = [
+    "E501",  # line too long
+    "W503",  # Line break occurred before a binary operator
+    "E203",  # Whitespace before ':'
+    "D202",  # No blank lines allowed after function docstring
+    "W504",  # line break after binary operator
+]
+
+[tool.mypy]
+python_version = "3.9"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
